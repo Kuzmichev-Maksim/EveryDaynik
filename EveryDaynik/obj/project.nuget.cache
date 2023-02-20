@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "ZryyaWW6and/58ZspDGgASAsJk+jYJQuPoBKo5HBH7HPlKJ6/uvB5lGN1zGbxfMoEQW4bdTfLHyIf4K4Yoz4vg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\maksi\\OneDrive\\Документы\\Колледж\\4 семестр\\C#\\Практическая 3 - Ежедневник\\EveryDaynik\\EveryDaynik\\EveryDaynik.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\maksi\\.nuget\\packages\\newtonsoft.json\\13.0.2\\newtonsoft.json.13.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}

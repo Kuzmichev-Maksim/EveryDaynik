@@ -1,0 +1,55 @@
+﻿<Window x:Class="EveryDaynik.MainWindow"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:local="clr-namespace:EveryDaynik"
+mc:Ignorable="d"
+Title="MainWindow" Height="450" Width="800">
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.3*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="0.3*"/>
+
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1.3*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <DatePicker x:Name="Calendare" Grid.ColumnSpan="2" FontSize="50" Background="#FF292929" Foreground="Black" SelectedDateChanged="Calendare_SelectedDateChanged"/>
+        <Button Grid.Row="2" Content="Удалить" FontSize="40" Background="#FFD90000" Foreground="White" Click="Delete_Click"/>
+        <ListBox x:Name="ListNotes" Grid.Row="1" SelectionChanged="ListNotes_SelectionChanged"/>
+
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.3*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <TextBlock FontSize="40" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Название:"/>
+            <TextBox x:Name="NameNote" Grid.Row="1" FontSize="20" Height="40" Background="#FFD9D9D9"/>
+            <TextBlock FontSize="40" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="2" Text="Описание:"/>
+            <TextBox x:Name="DescriptionNote" Grid.Row="4" FontSize="20" Height="40" Background="#FFD9D9D9"/>
+        </Grid>
+
+        <Grid Grid.Column="1" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Button Content="Создать" FontSize="35" Click="Create_Click"/>
+            <Button Content="Сохранить" Grid.Column="1" FontSize="35" Click="Save_Click"/>
+        </Grid>
+
+    </Grid>
+</Window>
