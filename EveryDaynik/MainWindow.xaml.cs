@@ -31,39 +31,39 @@ namespace EveryDaynik
         {
             InitializeComponent();
             notes = new Datenotes(selectedDate);
-            UpdateListDel();
+            UpdateListTask();
             Calendare.SelectedDate = selectedDate;
         }
 
-        private void Create_Click(object sender, RoutedEventArgs e)
+        private void Create(object sender, RoutedEventArgs e)
         {
             string title = NameNote.Text;
-            string description = DescriptionNote.Text;
+            string description = DescNote.Text;
             notes.CreateNotes(selectedDate, title, description);
-            UpdateListDel();
+            UpdateListTask();
         }
 
-        private void Save_Click(object sender, RoutedEventArgs e)
+        private void Save(object sender, RoutedEventArgs e)
         {
             string title = NameNote.Text;
-            string description = DescriptionNote.Text;
+            string description = DescNote.Text;
             notes.EditNotes(selectedDate, title, description);
-            UpdateListDel();
+            UpdateListTask();
         }
 
-        private void Delete_Click(object sender, RoutedEventArgs e)
+        private void Delete(object sender, RoutedEventArgs e)
         {
             notes.DeleteNotes(selectedId: notes.SelectedId);
-            UpdateListDel();
+            UpdateListTask();
         }
 
-        private void Calendare_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        private void Calendar(object sender, SelectionChangedEventArgs e)
         {
             notes.SelectedDate = Convert.ToDateTime(Calendare.Text);
-            UpdateListDel();
+            UpdateListTask();
 
         }
-        public void UpdateListDel()
+        public void UpdateListTask()
         {
             selectedDate = notes.SelectedDate;
             notes.ReadNotes();
@@ -77,10 +77,10 @@ namespace EveryDaynik
                 }
             }
             NameNote.Text = "";
-            DescriptionNote.Text = "";
+            DescNote.Text = "";
         }
 
-        private void ListNotes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ListNoteSelected(object sender, SelectionChangedEventArgs e)
         {
             if (ListNotes.SelectedIndex != -1)
             {
@@ -88,7 +88,7 @@ namespace EveryDaynik
                 notes.SelectedId = ListNotes.SelectedIndex;
                 Notes note = notes.TodayNotes[notes.SelectedId];
                 NameNote.Text = note.name;
-                DescriptionNote.Text = note.description;
+                DescNote.Text = note.description;
             }
         }
     }

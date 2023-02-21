@@ -34,59 +34,53 @@ namespace EveryDaynik
 
         public Datenotes(DateTime date)
         {
-            this.TodayNotes = DS.Deserialize<Notes>(date);
-            this.AllNotes = DS.Deserialize<Notes>(default);
+            TodayNotes = DS.Deserialize<Notes>(date);
+            AllNotes = DS.Deserialize<Notes>(default);
             SelectedDate = date;
         }
         public void CreateNotes(DateTime date, string title, string description)
         {
-            Notes note = new Notes(this.AllNotes.Count, title, description, this.SelectedDate);
-            this.AllNotes.Add(note);
-            DS.Serialize<Notes>(this.AllNotes);
-            this.ReadNotes();
+            Notes note = new Notes(AllNotes.Count, title, description, SelectedDate);
+            AllNotes.Add(note);
+            DS.Serialize<Notes>(AllNotes);
+            ReadNotes();
         }
         public void DeleteNotes(int selectedId = -1, int id = -1)
         {
             if (selectedId != -1)
             {
-                id = this.TodayNotes[selectedId].id;
+                id = TodayNotes[selectedId].id;
             }
             List<Notes> notes = new List<Notes>();
-            foreach (Notes note in this.AllNotes)
+            foreach (Notes note in AllNotes)
             {
                 if (note.id != id)
                 {
                     notes.Add(note);
                 }
             }
-            this.AllNotes = notes;
+            AllNotes = notes;
             ReadNotes();
             ReloadNotes();
         }
-        public void ReadNotes()
-        {
-            this.TodayNotes = DS.Deserialize<Notes>(this.SelectedDate);
-        }
-        public void ReloadNotes()
-        {
-            DS.Serialize<Notes>(this.AllNotes);
-        }
+        public void ReadNotes(){TodayNotes = DS.Deserialize<Notes>(SelectedDate);}
+        public void ReloadNotes(){DS.Serialize<Notes>(AllNotes);}
         public void EditNotes(DateTime date, string title, string description)
         {
             if (SelectedId != -1)
             {
-                Notes note = new Notes(this.TodayNotes[SelectedId].id, title, description, this.SelectedDate);
-                DeleteNotes(this.TodayNotes[SelectedId].id);
-                this.AllNotes.Add(note);
+                Notes note = new Notes(TodayNotes[SelectedId].id, title, description, SelectedDate);
+                DeleteNotes(TodayNotes[SelectedId].id);
+                AllNotes.Add(note);
                 ReloadNotes();
-                this.ReloadNotes();
-                this.SelectedId = -1;
+                ReloadNotes();
+                SelectedId = -1;
             }
         }
         public void Window(DateTime date = default)
         {
             List<Notes> notes = new List<Notes>();
-            foreach (Notes note in this.AllNotes)
+            foreach (Notes note in AllNotes)
             {
                 if (note.date == date) notes.Add(note);
             }
@@ -94,33 +88,32 @@ namespace EveryDaynik
     }
     public class DS
     {
-            public static List<T> Serialize<T>(List<T> notes)
+        public static List<T> Deserialize<T>(DateTime date = default)
+        {
+            try
             {
                 string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                string json = JsonConvert.SerializeObject(notes);
-                File.WriteAllText(desktop + "\\Zametki.json", json);
+                List<T> notes = new();
+                List<T> json = JsonConvert.DeserializeObject<List<T>>(File.ReadAllText(desktop + "\\Notes.json"));
+                foreach (T note in json)
+                {
+                    notes.Add(note);
+                }
                 return notes;
             }
-            public static List<T> Deserialize<T>(DateTime date = default)
+            catch
             {
-                try
-                {
-                    string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                    List<T> notes = new();
-                    List<T> json = JsonConvert.DeserializeObject<List<T>>(File.ReadAllText(desktop + "\\Zametki.json"));
-                    foreach (T note in json)
-                    {
-                        notes.Add(note);
-                    }
-                    return notes;
-                }
-                catch
-                {
-                    List<T> notes = new();
-                    File.WriteAllText("Zametki.json", JsonConvert.SerializeObject(notes));
-                    return notes;
-                }
+                List<T> notes = new();
+                File.WriteAllText("Notes.json", JsonConvert.SerializeObject(notes));
+                return notes;
             }
-        
+        }
+        public static List<T> Serialize<T>(List<T> notes)
+        {
+                string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                string json = JsonConvert.SerializeObject(notes);
+                File.WriteAllText(desktop + "\\Notes.json", json);
+                return notes;
+        }
     }
 }
